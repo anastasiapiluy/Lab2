@@ -1,1 +1,322 @@
-# Lab2
+# Отчет по лабораторной работе №2
+#### № группы: `ПМ-2502`
+#### Выполнила: `Пилуй Анастасия Даниловна`
+#### Вариант: `14`
+
+### Содержание:
+- [Задание 1](#задание-1)
+- [Задание 2](#задание-2)
+- [Задание 3](#задание-3)
+- [Задание 4](#задание-4)
+
+## Задание 1
+
+### Условие
+`Формулировка: задача – посмотреть, какие значения принимает последовательность при разных a0 и n, вывести закономерность, по которой строится последовательность и запрограммировать ее самостоятельно.
+Ограничение сверху на n – искусственное, чтобы не упал весь сайт (а вы можете выбрать любое разумное ограничение самостоятельно). Если на ваш запрос сервер пятисотит (HTTP 500), значит ваша последовательность быстро растет, и питон сломался обрабатывать ее элементы, попробуйте вывести еще меньше элементов.`
+
+`Формат ввода: a (целое) - нулевой член последовательности, n (натуральное) - число следующих членов`
+
+### Программа
+
+```java
+
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.Scanner;
+public class Main {
+    public static Scanner in = new Scanner(System.in);
+    public static PrintStream out = System.out;
+    public static void main(String[] args) throws IOException {
+        int a = in.nextInt(), n = in.nextInt();
+        int i = 0;
+        while (i<n) {
+            if (i%2==0) {
+                out.print(a+3+", ");
+                a+=3;
+            }
+            else {
+                out.print(a/4+", ");
+                a/=4;
+            }
+            i++;
+        }
+    }
+}
+
+```
+### Анализ правуилности решения
+
+1. Тест 1:
+
+    - **Input**:
+        ```
+        15
+        10
+        ```
+
+    - **Output**:
+        ```
+      18 4 7 1 4 1 4 1 4 1 
+        ```
+
+  2. Тест 2:
+
+     - **Input**:
+        ```
+        100
+        10
+        ```
+
+     - **Output**:
+        ```
+       103 25 28 7 10 2 5 1 4 1 
+        ```
+
+## Задание 2
+
+### Условие
+`Формулировка: Последовательность разбивается на части числами, кратными 3: такие числа выступают разделителями и в часть не входят. Для каждой полученной части нужно определить знак произведения ее элементов. Подсчитайте, сколько частей имеют положительный знак произведения, и выведите это число. Замечание: операцию умножения чисел использовать нельзя.`
+
+`Формат ввода: первая строка: число n, вторая строка: n целых чисел – элементы последовательности `
+
+### Программа
+
+```java
+
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.Scanner;
+public class Main {
+    public static Scanner in = new Scanner(System.in);
+    public static PrintStream out = System.out;
+    public static void main(String[] args) throws IOException {
+        int n = in.nextInt();
+        int[] ls = new int[n];
+        int pos = 0, sign = 1;
+        boolean flag = false;
+        for (int i = 0; i < n; i++) {
+            ls[i] = in.nextInt();
+            if (Math.abs(ls[i])%3==0) {
+                if (sign==1 && flag) {
+                    pos++;
+                }
+                sign = 1;
+                flag = false;
+            }
+            else {
+                flag = true;
+                if (ls[i]<0){
+                    sign*=-1;
+                }
+            }
+        }
+        if (sign==1 && flag) {
+            pos++;
+        }
+        out.print(pos);
+    }
+}
+
+```
+### Анализ правуилности решения
+
+1. Тест 1:
+
+    - **Input**:
+        ```
+        6
+        2 -3 4 5 6 -7
+        ```
+
+    - **Output**:
+        ```
+        2 
+        ```
+
+  2. Тест 2:
+
+     - **Input**:
+        ```
+        4
+        -1 -2 3 -4
+        ```
+
+     - **Output**:
+        ```
+        1 
+        ```
+  3. Тест 3:
+
+     - **Input**:
+        ```
+        5
+        0 0 3 4 -1
+        ```
+
+     - **Output**:
+        ```
+        0
+        ```
+        
+
+## Задание 3
+
+### Условие
+`Формулировка: определите, является ли десятичная запись числа палиндромом (одинаково читается слева направо и справа налево).`
+
+`Формат ввода: одно целое неотрицательное число n`
+
+### Программа
+
+```java
+
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.Scanner;
+public class Main {
+    public static Scanner in = new Scanner(System.in);
+    public static PrintStream out = System.out;
+
+    public static void main(String[] args) throws IOException {
+        int n = in.nextInt();
+        int a = n, k = 0;
+        boolean flag = true;
+        while (a > 0) {
+            a /= 10;
+            k++;
+        }
+        int[] l = new int[k];
+        for (int i = 0; i < l.length; i++) {
+            l[i] = n % 10;
+            n /= 10;
+        }
+        for (int i = 0; i < l.length / 2; i++) {
+            if (l[i]!=l[l.length-i-1]) {
+                flag = false;
+            }
+        }
+        if (flag) {
+            out.print("Число явлется палиндромом");
+        } else {
+            out.print("Число не является палиндромом");
+        }
+    }
+}
+```
+### Анализ правуилности решения
+
+1. Тест 1:
+
+    - **Input**:
+        ```
+        12345
+        ```
+
+    - **Output**:
+        ```
+      Число не является палиндромом
+        ```
+
+  2. Тест 2:
+
+     - **Input**:
+        ```
+        1235321
+        ```
+
+     - **Output**:
+        ```
+       Число явлется палиндромом 
+        ```
+  3. Тест 3:
+
+     - **Input**:
+        ```
+        111111
+        ```
+
+     - **Output**:
+        ```
+       Число явлется палиндромом 
+        ```
+
+
+## Задание 4
+
+### Условие
+`Формулировка: Дан массив из n чисел. Вывести все элементы, количество появлений которых равно сумме цифр самого элемента. Если таких элементов нет, вывести "NO".`
+
+`Формат ввода: первая строка - число n, вторая строка - n элементов массива`
+
+### Программа
+
+```java
+
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Scanner;
+public class Main {
+    public static Scanner in = new Scanner(System.in);
+    public static PrintStream out = System.out;
+
+    public static void main(String[] args) throws IOException {
+        int n = in.nextInt();
+        ArrayList<Integer> rep = new ArrayList<>();
+        int[] l = new int[n];
+        boolean flag = false;
+        for (int i = 0; i < n; i++) {
+            l[i] = in.nextInt();
+        }
+        for (int i = 0; i < l.length; i++) {
+            int sum = 0, c=l[i], k = 0;
+            while (c>0) {
+                sum+=c%10;
+                c/=10;
+            }
+            for (int j = 0; j < l.length; j++) {
+                if (l[i]==l[j]) {
+                    k++;
+                }
+            }
+            if (k==sum && !rep.contains(l[i])) {
+                out.print(l[i]+ " ");
+                flag = true;
+                rep.add(l[i]);
+            }
+        }
+        if (!flag) {
+            out.print("NO");
+        }
+    }
+}
+
+```
+### Анализ правуилности решения
+
+1. Тест 1:
+
+    - **Input**:
+        ```
+        5
+        2 3 4 5 6
+        ```
+
+    - **Output**:
+        ```
+        NO
+        ```
+
+  2. Тест 2:
+
+     - **Input**:
+        ```
+        5
+        1 2 2 3 8
+        ```
+
+     - **Output**:
+        ```
+        1 2
+        ```
