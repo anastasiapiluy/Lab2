@@ -263,7 +263,7 @@ public class Main {
 
 ### Алгоритм
 
-Создается список длины n, вводится n элементов списка. Проходимся по списку, для каждого элемента считаем сумму цифр, затем во вложенном цикле считаем количество появлений элемента в списке. Далее смотрим, равна ли сумма цифр количеству появлений, не встречалось ли данное число раньше, если все верно, выводи число и добавляем в список, чтобы избежать повторов. Если не одного числа не было выведено, то выводим "NO".
+Создается список длины n, вводится n элементов списка. Проходимся по списку, для каждого элемента считаем сумму цифр, затем во вложенном цикле считаем количество появлений элемента в списке. Далее смотрим, равна ли сумма цифр количеству появлений, не встречалось ли данное число раньше, проходя по списку все элемены до этого, если все верно, выводим число. Если не одного числа не было выведено, то выводим "NO".
 
 ### Программа
 
@@ -271,7 +271,6 @@ public class Main {
 
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.Scanner;
 public class Main {
     public static Scanner in = new Scanner(System.in);
@@ -279,7 +278,6 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         int n = in.nextInt();
-        ArrayList<Integer> rep = new ArrayList<>();
         int[] l = new int[n];
         boolean flag = false;
         for (int i = 0; i < n; i++) {
@@ -296,10 +294,17 @@ public class Main {
                     k++;
                 }
             }
-            if (k==sum && !rep.contains(l[i])) {
-                out.print(l[i]+ " ");
-                flag = true;
-                rep.add(l[i]);
+            if (k==sum) {
+                int ct = 0;
+                for (int j = 0; j < i; j++) {
+                    if (l[i]==l[j]) {
+                        ct++;
+                    }
+                }
+                if (ct<1) {
+                    out.print(l[i]+ " ");
+                    flag = true;
+                }
             }
         }
         if (!flag) {
